@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GithubContext } from '../context/context';
-import { ExampleChart, Pie3D, Column3D, Bar3D, Doughnut2D } from './Charts';
+import { Pie3D, Column3D, Bar3D, Doughnut2D } from './Charts';
 const Repos = () => {
   const {repos} = React.useContext(GithubContext);
   let languages = repos.reduce((total, item) => {
@@ -13,7 +13,7 @@ const Repos = () => {
       total[language] = {label: language, value: 1, stars: stargazers_count};
     }
     else {
-      total[language] = {... total[language], value: total[language].value + 1, stars: total[language].value + stargazers_count};
+  total[language] = {...total[language], value: total[language].value + 1, stars: total[language].stars + stargazers_count}; // fixed rest-spread-spacing and logic
     }
     return total;
   }, {});
@@ -35,8 +35,8 @@ const Repos = () => {
 
   let {stars, forks} = repos.reduce((total, item) => {
     const {stargazers_count, name, forks} = item;
-    total.stars[stargazers_count] = {label:name, value: stargazers_count};
-    total.forks[forks] = {label:name, value: forks};
+  total.stars[stargazers_count] = {label: name, value: stargazers_count};
+  total.forks[forks] = {label: name, value: forks};
     return total;
   }, {
     stars:{}, 

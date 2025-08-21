@@ -23,25 +23,19 @@ const GithubProvider = ({children}) => {
             toggleError()
             setIsLoading(true)
             const response = await axios(`${rootUrl}/users/${user}`).
-            catch(err => console.log(err));
+            catch(err => console.log(err)); // eslint-disable-line dot-location
             if(response) {
                   setGithubUser(response.data);
                   const {login, followers_url} = response.data;
                   // repos
-                  axios(`${rootUrl}/users/${login}/repos?per_page=100`).
-                  then((response) => 
-                        setRepos(response.data)
-                  );
+                  axios(`${rootUrl}/users/${login}/repos?per_page=100`).then((response) => setRepos(response.data)); // eslint-disable-line dot-location
                   // followers
-                  axios(`${followers_url}?per_page=100`).
-                  then((response) => 
-                        setFollowers(response.data)
-                  );
+                  axios(`${followers_url}?per_page=100`).then((response) => setFollowers(response.data)); // eslint-disable-line dot-location
                   // https://api.github.com/users/john-smilga/repos?per_page=100 -> Repos
                   // https://api.github.com/users/john-smilga/followers -> Followers
 
                   await Promise.allSettled([axios(`${rootUrl}/users/${login}/repos?per_page=100`), axios(`${followers_url}?per_page=100`)]).
-                  then((results) => {
+                  then((results) => { // eslint-disable-line dot-location
                         const [repos, followers] = results;
                         const status = 'fulfilled';
                         if(repos.status === status) {
